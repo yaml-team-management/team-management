@@ -134,6 +134,7 @@ For more details, see [GitHub's documentation on scheduled workflows](https://do
 * Manage invites for non-org members and auto team inclusion (when sync is run)
 * Validate GitHub usernames in pull requests before merging
 * Display triage-level (and above) permissions for tracked repositories in `repos.yaml` (read-only mode, manual trigger)
+  * For that, you need to add `Repository permissions: Administration (Read-only)` to the GitHub App managing tokens AND make sure it is enabled for the repos you want to track. 
 
 ## **Not** implemented 
 
