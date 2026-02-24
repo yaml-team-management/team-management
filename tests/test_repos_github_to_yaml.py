@@ -247,8 +247,7 @@ class TestLoadTrackedRepos(unittest.TestCase):
     @patch('repos_github_to_yaml.Path')
     def test_load_tracked_repos(self, mock_path):
         """Test loading tracked repos from repos.yaml."""
-        yaml_content = """
-tracked_repos:
+        yaml_content = """tracked_repos:
   - repo1
   - repo2
 permissions: []
