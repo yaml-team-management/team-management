@@ -7,7 +7,6 @@
 tracked_repos:
 - team-management
 - mock_repo
-
 permissions:
 - team-management:
     admin:
@@ -18,3 +17,12 @@ permissions:
     triage:
       teams:
       - test
+- mock_repo:
+    admin:
+      teams:
+      - admin
+      users:
+      - lubianat
+    write:
+      users:
+      - gouttegd
