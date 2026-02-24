@@ -176,12 +176,13 @@ def fetch_collaborator_permissions(org, repo_name, session):
     permissions_by_level = {level: [] for level in TRACKED_PERMISSIONS}
     
     try:
-        # Fetch collaborators with affiliation=direct to get only direct collaborators
-        # (not those who have access through team membership)
+        # Fetch all collaborators including those with access through org/team membership
+        # We use affiliation=all to capture org owners and team members who may not be
+        # direct collaborators but still have write access
         collaborators = paginate(
             f"{API}/repos/{org}/{repo_name}/collaborators",
             session,
-            params={"affiliation": "direct"}
+            params={"affiliation": "all"}
         )
         print(f"    DEBUG: Raw collaborators from API for {repo_name}: {collaborators}")
         
