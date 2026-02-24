@@ -5,6 +5,14 @@
 # The permissions section is automatically updated by the workflow.
 
 tracked_repos:
-  - team-management
-
-permissions: []
+- team-management
+permissions:
+- team-management:
+    admin:
+      teams:
+      - admin
+      users:
+      - lubianat
+    triage:
+      teams:
+      - test
