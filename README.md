@@ -133,7 +133,7 @@ For more details, see [GitHub's documentation on scheduled workflows](https://do
 * Include/exclude people from teams that exist (even if the people are not in the org)
 * Manage invites for non-org members and auto team inclusion (when sync is run)
 * Validate GitHub usernames in pull requests before merging
-* **Repository Permissions Visibility**: Display write-level (and above) permissions for tracked repositories in `repos.yaml` (read-only mode)
+* Display triage-level (and above) permissions for tracked repositories in `repos.yaml` (read-only mode, manual trigger)
 
 ## **Not** implemented 
 
@@ -148,55 +148,6 @@ Some might be implemented if (1) there is a need and (2) they are secure:
 
 * Users not in the org will be assigned to a list. After they accept the invitation, they will be added to the correct teams on the hourly sync workflow. 
 * Teams not listed in the YAML file will be simply ignored (not deleted nor emptied)
-
-# Repository Permissions Visibility
-
-This feature provides a read-only view of write-level (and above) permissions for selected repositories.
-
-## What it does
-
-The system can export repository permissions from GitHub to a `repos.yaml` file, making it easy to:
-- **Audit permissions**: See all write, maintain, and admin access in one place
-- **Track changes**: Version control repository access using git
-- **Improve transparency**: Make repository permissions visible to the team
-
-## How to use
-
-1. **Add repositories to track**: Edit `repos.yaml` and add repository names to the `tracked_repos` list:
-
-```yaml
-tracked_repos:
-  - team-management
-  - my-repo
-  - another-repo
-```
-
-2. **Run the sync workflow**: Go to Actions → "GitHub repos permissions → repos.yaml sync" and click "Run workflow"
-
-3. **Review the output**: The workflow will create a PR with updated permissions in `repos.yaml`
-
-## What it tracks
-
-The feature exports:
-- **Admin** permissions (teams and individual users)
-- **Maintain** permissions (teams and individual users)  
-- **Write** permissions (teams and individual users)
-- **Triage** permissions (teams and individual users)
-
-**Read-only permissions are NOT tracked** as they don't allow modifications to the repository.
-
-## Important notes
-
-- **Read-only mode**: This feature only displays permissions. It does NOT manage or change permissions.
-- **Manual trigger only**: The workflow runs only when manually triggered via workflow_dispatch. It does not run automatically.
-- **Tracked repos only**: Only repositories listed in `tracked_repos` are scanned.
-
-## Use cases
-
-1. **Security audits**: Quickly review who has write access to critical repositories
-2. **Onboarding**: Help new team members understand repository access structure
-3. **Access verification**: Confirm that team members have appropriate permissions
-4. **Change tracking**: Use git history to track when permissions were modified in GitHub
 
 # Development
 

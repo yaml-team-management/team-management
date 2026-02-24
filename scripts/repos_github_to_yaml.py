@@ -1,3 +1,11 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#   "pyyaml",
+#   "requests",
+# ]
+# ///
+
 # This script fetches repository permissions from GitHub
 # and updates repos.yaml with write-level (and above) permissions.
 # This is a READ-ONLY sync: GitHub -> repos.yaml

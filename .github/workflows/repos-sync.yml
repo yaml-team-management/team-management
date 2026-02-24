@@ -3,10 +3,6 @@ name: GitHub repos permissions --> repos.yaml sync
 on:
   workflow_dispatch:
 
-concurrency:
-  group: repos-sync-${{ github.repository }}
-  cancel-in-progress: false
-
 permissions:
   contents: write
   pull-requests: write
@@ -25,15 +21,15 @@ jobs:
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
       - name: Export repos.yaml
         env:
           ORG: ${{ github.repository_owner }}
           TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          python -m pip install --quiet --upgrade pip
-          python -m pip install --quiet pyyaml requests
-
-          python scripts/repos_github_to_yaml.py
+          uv run scripts/repos_github_to_yaml.py
 
       - name: Create PR if changed
         uses: peter-evans/create-pull-request@v6
