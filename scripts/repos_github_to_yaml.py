@@ -146,6 +146,13 @@ def fetch_team_permissions(org, repo_name, session):
             permission = team.get("permission")
             team_slug = team.get("slug")
             
+            # GitHub API returns "push" for write access, map it to "write"
+            # GitHub API returns "pull" for read access, which we don't track
+            if permission == "push":
+                permission = "write"
+            elif permission == "pull":
+                continue  # Skip read-only access
+            
             if permission in TRACKED_PERMISSIONS and team_slug:
                 permissions_by_level[permission].append(team_slug)
     except requests.exceptions.HTTPError as e:
