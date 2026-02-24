@@ -111,9 +111,11 @@ def fetch_repo_permissions(org, repo_name, session):
     
     # Fetch team permissions
     team_permissions = fetch_team_permissions(org, repo_name, session)
+    print(f"  DEBUG: Team permissions for {repo_name}: {team_permissions}")
     
     # Fetch collaborator permissions (individual users)
     user_permissions = fetch_collaborator_permissions(org, repo_name, session)
+    print(f"  DEBUG: User permissions for {repo_name}: {user_permissions}")
     
     # Organize by permission level
     for permission_level in TRACKED_PERMISSIONS:
@@ -129,6 +131,8 @@ def fetch_repo_permissions(org, repo_name, session):
                 level_data["users"] = sorted(users)
             repo_data[repo_name][permission_level] = level_data
     
+    print(f"  DEBUG: Final repo_data for {repo_name}: {repo_data[repo_name]}")
+    
     # Only return repo data if there are any permissions to track
     if repo_data[repo_name]:
         return repo_data
@@ -141,10 +145,12 @@ def fetch_team_permissions(org, repo_name, session):
     
     try:
         teams = paginate(f"{API}/repos/{org}/{repo_name}/teams", session)
+        print(f"    DEBUG: Raw teams from API for {repo_name}: {teams}")
         
         for team in teams:
             permission = team.get("permission")
             team_slug = team.get("slug")
+            print(f"    DEBUG: Processing team {team_slug} with permission {permission}")
             
             # GitHub API returns "push" for write access, map it to "write"
             # GitHub API returns "pull" for read access, which we don't track
@@ -155,6 +161,7 @@ def fetch_team_permissions(org, repo_name, session):
             
             if permission in TRACKED_PERMISSIONS and team_slug:
                 permissions_by_level[permission].append(team_slug)
+                print(f"    DEBUG: Added team {team_slug} to {permission} level")
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 404:
             print(f"Warning: Repository {org}/{repo_name} not found or not accessible")
@@ -176,6 +183,7 @@ def fetch_collaborator_permissions(org, repo_name, session):
             session,
             params={"affiliation": "direct"}
         )
+        print(f"    DEBUG: Raw collaborators from API for {repo_name}: {collaborators}")
         
         for collab in collaborators:
             # Get the permission object which contains role_name
@@ -184,6 +192,8 @@ def fetch_collaborator_permissions(org, repo_name, session):
             
             if not login:
                 continue
+            
+            print(f"    DEBUG: Processing collaborator {login} with permissions {permissions}")
             
             # Determine the highest permission level
             # GitHub API returns permissions as booleans
@@ -201,6 +211,7 @@ def fetch_collaborator_permissions(org, repo_name, session):
             
             if permission_level in TRACKED_PERMISSIONS:
                 permissions_by_level[permission_level].append(login)
+                print(f"    DEBUG: Added user {login} to {permission_level} level")
                 
     except requests.exceptions.HTTPError as e:
         if e.response.status_code == 404:
