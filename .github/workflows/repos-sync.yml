@@ -42,7 +42,7 @@ jobs:
           commit-message: "chore: export repos.yaml"
           title: "[AUTO] Exporting Repository permissions from GitHub"
           body:
-            " The management workflow detected changes between the repository permissions and the repos.yaml file. \
+            "The management workflow detected changes between the repository permissions and the repos.yaml file. \
             Exporting current repository write-level permissions into repos.yaml. \n\n\
             **Note that checks are not run by GH Actions-generated PRs.** \
             You may need to close and reopen the PR to trigger checks. \n\n\

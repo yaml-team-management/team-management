@@ -207,21 +207,14 @@ def render_yaml(tracked_repos, permissions_list):
     # Convert to YAML
     yaml_text = yaml.safe_dump(doc, sort_keys=False, default_flow_style=False, allow_unicode=True)
     
-    # Add the comment before the permissions section
-    if MARKER in yaml_text:
-        yaml_text = yaml_text.replace(MARKER, COMMENT + MARKER, 1)
-    
-    # Add header comments
+    # Add header comments using COMMENT constant for consistency
     header = (
-        "# AUTOMATICALLY UPDATED \u2014 DO NOT EDIT THE PERMISSIONS SECTION MANUALLY\n"
+        COMMENT +
         "# This file tracks write-level (and above) permissions for selected repositories.\n"
         "# \n"
         "# To track a repository, add it to the tracked_repos list below.\n"
         "# The permissions section is automatically updated by the workflow.\n\n"
     )
-    
-    # Remove the comment we just added (it will be in the header instead)
-    yaml_text = yaml_text.replace(COMMENT + MARKER, MARKER, 1)
     
     return header + yaml_text
 
