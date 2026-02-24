@@ -1,3 +1,12 @@
+> [!CAUTION]
+> By using this template, permission management powers will be delegated to whoever can write to this repository.
+>
+> Make sure you manage write access and branch protection rules carefully. 
+
+> [!WARNING]
+> Only users with `admin` or `owner` permission at the organization level can configure this template. 
+
+
 # YAML-based Team Management
 
 Control organization teams from a single `teams.yaml` file. 
