@@ -1,0 +1,54 @@
+name: GitHub repos permissions --> repos.yaml sync
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: repos-sync-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mint token via GitHub app
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_ID }}
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Export repos.yaml
+        env:
+          ORG: ${{ github.repository_owner }}
+          TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet pyyaml requests
+
+          python scripts/repos_github_to_yaml.py
+
+      - name: Create PR if changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          commit-message: "chore: export repos.yaml"
+          title: "[AUTO] Exporting Repository permissions from GitHub"
+          body:
+            " The management workflow detected changes between the repository permissions and the repos.yaml file. \
+            Exporting current repository write-level permissions into repos.yaml. \n\n\
+            **Note that checks are not run by GH Actions-generated PRs.** \
+            You may need to close and reopen the PR to trigger checks. \n\n\
+            _This is an automated PR created by the repository permissions sync workflow._ \n\n
+            This is a read-only sync that displays current GitHub permissions in YAML format."
+          branch: chore/repos-export
+          delete-branch: true
+          add-paths: |
+            repos.yaml
