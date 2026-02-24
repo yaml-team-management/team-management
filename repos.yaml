@@ -1,0 +1,10 @@
+# AUTOMATICALLY UPDATED — DO NOT EDIT THE PERMISSIONS SECTION MANUALLY
+# This file tracks write-level (and above) permissions for selected repositories.
+# 
+# To track a repository, add it to the tracked_repos list below.
+# The permissions section is automatically updated by the workflow.
+
+tracked_repos:
+  - team-management
+
+permissions: []
