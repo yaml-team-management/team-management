@@ -6,6 +6,8 @@
 
 tracked_repos:
 - team-management
+- mock_repo
+
 permissions:
 - team-management:
     admin:
