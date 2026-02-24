@@ -3,8 +3,8 @@ invite_sent:
 - joshmoore
 teams:
   admin:
-  - lubianat
   - joshmoore
+  - lubianat
   test:
   - lubianat
   uk: []
