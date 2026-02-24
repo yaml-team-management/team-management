@@ -1,12 +1,8 @@
 # AUTOMATICALLY UPDATED — DO NOT EDIT THIS SECTION MANUALLY
-invite_sent:
-- icaromsc
+invite_sent: []
 teams:
-  admins:
-  - jvfe
+  admin:
   - lubianat
-  telegram:
-  - icaromsc
+  test:
   - lubianat
-  vasco:
-  - lubianat
+  uk: []
