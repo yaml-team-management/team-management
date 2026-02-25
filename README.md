@@ -53,6 +53,11 @@ Then configure the permissions
      - Administration: Read (to list teams)
      - Members: Read and write
    - **Where can this GitHub App be installed?**: Only on this account
+
+> [!NOTE]
+> Permissions can be changed later in the GitHub App.
+> For example, by giving it only `Members: Read` (and not `write`) you can test the workflow without allowing it to modify member rights. 
+
 6. Click **"Create GitHub App"**
 <img width="557" height="203" alt="grafik" src="https://github.com/user-attachments/assets/4e0330b7-a8a0-4e18-82fd-5e735db79bc8" />
 
